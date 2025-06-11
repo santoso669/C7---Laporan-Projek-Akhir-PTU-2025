@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VoiceGen - Text-to-Speech Indonesia</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo">
+        <i class="fas fa-robot"></i>
+        <h1>VoiceGen</h1>
+      </div>
+      <p class="tagline">Konversi Teks ke Suara Berkualitas Tinggi</p>
+    </header>
+
+    <main class="app-main">
+      <div class="card main-card">
+        <div class="card-header">
+          <h2><i class="fas fa-keyboard"></i> Masukkan Teks</h2>
+          <div class="char-count">0/5000 karakter</div>
+        </div>
+        <textarea id="textToSpeak" placeholder="Ketik atau tempel teks bahasa Indonesia di sini..."></textarea>
+      </div>
+
+      <div class="settings-row">
+        <div class="card voice-settings">
+          <div class="card-header">
+            <h2><i class="fas fa-sliders-h"></i> Pengaturan Suara</h2>
+          </div>
+          <div class="settings-grid">
+            <div class="setting-group range-group">
+              <label for="rate"><i class="fas fa-tachometer-alt"></i> Kecepatan: <span id="rateValue">1.0</span>x</label>
+              <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1" />
+            </div>
+          </div>
+        </div>
+
+        <div class="card preview-card">
+          <div class="card-header">
+            <h2><i class="fas fa-play-circle"></i> Pratinjau & Kontrol</h2>
+          </div>
+          <div class="preview-content">
+            <div class="button-group">
+              <button id="speakButton" class="btn-primary">
+                <i class="fas fa-play"></i> Dengarkan
+              </button>
+              <button id="stopSpeakingButton" class="btn-danger" disabled>
+                <i class="fas fa-stop"></i> Berhenti
+              </button>
+            </div>
+            <button id="saveAudioButton" class="btn-secondary">
+              <i class="fas fa-download"></i> Simpan sebagai MP3
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="status-bar">
+      <div id="statusMessage" class="status-message">
+        <i class="fas fa-info-circle"></i> Aplikasi siap digunakan. Silakan masukkan teks.
+      </div>
+      <div class="app-version">VoiceGen v1.0</div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
