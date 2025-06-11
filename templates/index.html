@@ -1,73 +1,135 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VoiceGen - Text-to-Speech Indonesia</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-  <div class="app-container">
-    <header class="app-header">
-      <div class="logo">
-        <i class="fas fa-robot"></i>
-        <h1>VoiceGen</h1>
-      </div>
-      <p class="tagline">Konversi Teks ke Suara Berkualitas Tinggi</p>
-    </header>
-
-    <main class="app-main">
-      <div class="card main-card">
-        <div class="card-header">
-          <h2><i class="fas fa-keyboard"></i> Masukkan Teks</h2>
-          <div class="char-count">0/5000 karakter</div>
-        </div>
-        <textarea id="textToSpeak" placeholder="Ketik atau tempel teks bahasa Indonesia di sini..."></textarea>
-      </div>
-
-      <div class="settings-row">
-        <div class="card voice-settings">
-          <div class="card-header">
-            <h2><i class="fas fa-sliders-h"></i> Pengaturan Suara</h2>
-          </div>
-          <div class="settings-grid">
-            <div class="setting-group range-group">
-              <label for="rate"><i class="fas fa-tachometer-alt"></i> Kecepatan: <span id="rateValue">1.0</span>x</label>
-              <input type="range" id="rate" min="0.5" max="2" step="0.1" value="1" />
-            </div>
-          </div>
-        </div>
-
-        <div class="card preview-card">
-          <div class="card-header">
-            <h2><i class="fas fa-play-circle"></i> Pratinjau & Kontrol</h2>
-          </div>
-          <div class="preview-content">
-            <div class="button-group">
-              <button id="speakButton" class="btn-primary">
-                <i class="fas fa-play"></i> Dengarkan
-              </button>
-              <button id="stopSpeakingButton" class="btn-danger" disabled>
-                <i class="fas fa-stop"></i> Berhenti
-              </button>
-            </div>
-            <button id="saveAudioButton" class="btn-secondary">
-              <i class="fas fa-download"></i> Simpan sebagai MP3
-            </button>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <div class="status-bar">
-      <div id="statusMessage" class="status-message">
-        <i class="fas fa-info-circle"></i> Aplikasi siap digunakan. Silakan masukkan teks.
-      </div>
-      <div class="app-version">VoiceGen v1.0</div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>VoiceGen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gray-50 min-h-screen flex flex-col items-center justify-start py-10"
+  >
+    <!-- Header -->
+    <div class="text-center mb-6">
+      <h1
+        class="text-3xl font-bold text-indigo-600 flex items-center justify-center gap-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-7 w-7 text-indigo-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 19V6h13v13H9zM5 9H4a2 2 0 100 4h1v-4z"
+          />
+        </svg>
+        VoiceGen
+      </h1>
+      <p class="text-gray-500 text-sm">
+        Konversi Teks ke Suara Berkualitas Tinggi
+      </p>
     </div>
-  </div>
 
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
+    <!-- Input Text Card -->
+    <div class="w-full max-w-3xl bg-white rounded-xl shadow p-6 mb-6">
+      <label class="block font-semibold mb-2 flex items-center gap-2">
+        <svg
+          class="h-5 w-5 text-gray-500"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 20h9"
+          ></path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 4h16v4H4z"
+          ></path>
+        </svg>
+        Masukkan Teks
+      </label>
+      <textarea
+        id="text"
+        placeholder="Ketik atau tempel teks bahasa Indonesia di sini..."
+        rows="5"
+        class="w-full p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      ></textarea>
+      <div class="text-right text-xs text-gray-400 mt-1">0/2000 karakter</div>
+    </div>
+
+    <!-- Pengaturan dan Kontrol -->
+    <div class="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Pengaturan Suara -->
+      <!-- Pengaturan Suara -->
+      <div class="bg-white rounded-xl shadow p-4 md:col-span-2">
+        <h2 class="font-semibold mb-4">🎚️ Pengaturan Suara</h2>
+
+        <!-- Pilihan Suara -->
+        <label for="voice" class="text-sm block text-gray-700 mb-1"
+          >Pilih Suara:</label
+        >
+        <select
+          id="voice"
+          class="w-full border border-gray-300 rounded-md p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="Ida">Ida (Wanita)</option>
+          <option value="Adriano">Adriano (Pria)</option>
+        </select>
+
+        <!-- Slider Kecepatan -->
+        <label for="speed" class="text-sm block text-gray-700 mb-1"
+          >Kecepatan: <span id="speedValue">1.0</span>x</label
+        >
+        <input
+          type="range"
+          min="0.5"
+          max="2"
+          step="0.1"
+          value="1"
+          id="speed"
+          class="w-full accent-indigo-600"
+          oninput="document.getElementById('speedValue').innerText = this.value"
+        />
+      </div>
+
+      <!-- Kontrol -->
+      <div class="bg-white rounded-xl shadow p-4  justify-between">
+        <h2 class="font-semibold mb-2">🕹️ Pratinjau & Kontrol</h2>
+        <div class="flex flex-col gap-2">
+          <button
+            id="generateBtn"
+            class="w-full bg-indigo-600 text-white py-2 px-4 mt-4 rounded-md hover:bg-indigo-700 transition"
+          >
+            🔊 Putar
+          </button>
+          <a
+            id="downloadLink"
+            download="voicegen.mp3"
+            style="display: none"
+            class="text-center w-full border border-gray-300 text-sm py-2 rounded-md hover:bg-gray-100 text-gray-700"
+            >⬇️ Simpan sebagai MP3</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <p id="status" class="text-red-500 text-sm mt-6">
+      ⚠️ Terjadi kesalahan saat memuat suara.
+    </p>
+
+    <!-- Footer -->
+    <footer class="mt-10 text-xs text-gray-400">VoiceGen v1.0</footer>
+
+    <script src="/static/script.js"></script>
+  </body>
 </html>
